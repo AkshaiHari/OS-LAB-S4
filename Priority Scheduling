@@ -1,0 +1,55 @@
+#include<stdio.h>
+int main()
+{
+    int n,i,j,bt[10],p[10],pro[10],wt[10],tat[10];
+    float twt=0,ttat=0;
+    printf("ENTER THE NUMBER OF PROCESS : ");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        pro[i]=i+1;
+        printf("ENTER THE BURST TIME OF P%d : ",pro[i]);
+        scanf("%d",&bt[i]);
+        printf("ENTER THE PRIORITY OF P%d : ",pro[i]);
+        scanf("%d",&p[i]);
+    }
+    for(i=0;i<n-1;i++)
+    {
+        for(j=0;j<n-i-1;j++)
+        {
+            if(p[j]>p[j+1])
+            {
+                int temp=p[j+1];
+                p[j+1]=p[j];
+                p[j]=temp;
+
+                temp=pro[j+1];
+                pro[j+1]=pro[j];
+                pro[j]=temp;
+
+                temp=bt[j+1];
+                bt[j+1]=bt[j];
+                bt[j]=temp;
+            }
+        }
+    }
+    wt[0]=0;
+    printf("\nPROCESS\tBURST TIME\tWAITING TIME\tTURNAROUND TIME ");
+    printf("\n------------------------------------------------------------------------------\n");
+    for(i=0;i<n;i++)
+    {
+        wt[i]=0;
+        tat[i]=0;
+        for(j=0;j<i;j++)
+        {
+            wt[i]=wt[i]+bt[j];
+            
+        }
+        tat[i]=wt[i]+bt[i];
+        twt=twt+wt[i];
+        ttat=ttat+tat[i];
+        printf("\n%d\t\t%d\t\t%d\t\t%d\n",pro[i+1],bt[i],wt[i],tat[i]);
+    }
+    printf("AVERAGE WAITING TIME = %d ",twt/n);
+    printf("AVERAGE TURNAROUND TIME = %d ",ttat/n);
+}
